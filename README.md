@@ -3,7 +3,6 @@ shadowsocks
 
 [![PyPI version]][PyPI]
 [![Build Status]][Travis CI]
-A fast tunnel proxy that helps you bypass firewalls.
 
 Features:
 - TCP & UDP support
