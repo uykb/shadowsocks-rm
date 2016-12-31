@@ -16,6 +16,47 @@ Server
 
 ### Install
 
+更新系统 
+apt-get update && apt-get upgrade -y
+安装控件
+apt-get install python-pip  && pip install cymysql
+安装组建
+apt-get install vim git wget supervisor -y
+下载shadowsocks-rm
+git clone -b manyuser https://github.com/uykb/shadowsocks-rm.git
+移动指定文件夹
+mv shadowsocks-rm/shadowsocks/ /usr/local/
+配置进程守护
+echo '[program:shadowsocks]
+command=python /usr/local/shadowsocks/servers.py
+autorestart=true
+user=root' >> /etc/supervisor/conf.d/shadowsocks.conf && echo 'ulimit -n 51200
+ulimit -Sn 4096
+ulimit -Hn 8192' >> /etc/profile && echo 'ulimit -n 51200
+ulimit -Sn 4096
+ulimit -Hn 8192' >> /etc/default/supervisor
+修改数据库
+vim /usr/local/shadowsocks/config.py
+启动
+service supervisor start 
+supervisorctl reload
+添加开机自启
+vim /etc/rc.local 
+service supervisor start
+supervisorctl reload
+启用算法
+apt-get install m2crypto gcc -y
+wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
+tar zfvx libsodium-1.0.8.tar.gz
+cd libsodium-1.0.8
+./configure
+make && make install
+echo "include ld.so.conf.d/*.conf" > /etc/ld.so.conf
+echo "/lib" >> /etc/ld.so.conf
+echo "/usr/lib64" >> /etc/ld.so.conf
+echo "/usr/local/lib" >> /etc/ld.so.conf
+ldconfig
+
 Debian / Ubuntu:
 
     apt-get install python-pip
